@@ -25,14 +25,6 @@ jobs:
          command: |
            ls -al
            echo 'second job!!!'
- nightlybuild:
-   docker:
-     - image: alpine:3.7
-   steps:
-     - run:
-         name: ナイトリージョブ！！
-         command: |
-           echo 'nightly-test job!!!'
 workflows:
   version: 2
   build_and_test:
