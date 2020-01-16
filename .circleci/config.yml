@@ -15,7 +15,7 @@ jobs:
         command: |
           ls -al
           echo '^^^That should look familiar^^^'
-  build:
+  test:
     docker:
       - image: alpine:3.7
     steps:
