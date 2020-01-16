@@ -1,17 +1,31 @@
 version: 2.0
 jobs:
- build:
-   docker:
-     - image: alpine:3.7
-   steps:
-     - checkout
-     - run:
-         name: 最初の一歩
-         command: |
-           echo 'Hello World!'
-           echo 'This is the delivery pipeline'
-     - run:
-         name: コードの取得
-         command: |
-           ls -al
-           echo '^^^That should look familiar^^^'
+  build:
+    docker:
+      - image: alpine:3.7
+    steps:
+      - checkout
+      - run:
+        name: 最初の一歩
+        command: |
+          echo 'Hello World!'
+          echo 'This is the delivery pipeline'
+      - run:
+        name: build -- コードの取得
+        command: |
+          ls -al
+          echo '^^^That should look familiar^^^'
+  build:
+    docker:
+      - image: alpine:3.7
+    steps:
+      - run:
+        name: test ^^ コードの取得
+        command: |
+          echo '^^^That should look familiar^^^'
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test
