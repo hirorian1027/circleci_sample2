@@ -40,3 +40,11 @@ workflows:
           filters:
             branches:
               only: master
+  nightly:
+    triggers:
+      - schedule:
+          cron: "10 15 * * *"
+          filters:
+            branches:
+              only:
+                - master
