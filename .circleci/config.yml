@@ -1,54 +1,40 @@
-# ここでは再利用可能な Executor を有効にするため CircleCI 2.1 を使用しています。
-# これによりジョブ間で再利用する Docker イメージを定義できるようになります。　
-# 詳細は https://circleci.com/docs/2.0/reusing-config/#authoring-reusable-executors
-
 version: 2.1
 
-executors:
-  my-executor:
-    docker:
-      - image: buildpack-deps:jessie
-    working_directory: /tmp
-
 jobs:
-  flow:
-    executor: my-executor
-    steps:
-      - run: pwd
-      - run: ls -lat
-      - run: mkdir -p workspace
-      - run: echo "Hello, world!" > workspace/echo-output
-      - run: ls -lat
-
-      # 後に続くジョブで利用できるように Workspace に指定のパス（workspace/echo-output）を保存します。
-      - persist_to_workspace:
-          # working_directory からの相対パスか絶対パスを指定します。
-          # これは Workspace のルートディレクトリとなるコンテナ内のディレクトリです
-          root: workspace
-          # root からの相対パスを指定します
-          paths:
-            - echo-output
-
-  downstream:
-    executor: my-executor
-    steps:
-      - attach_workspace:
-          # working_directory からの相対パスか絶対パスを指定します
-          at: /tmp/workspace
-
-      - run: |
-          if [[ `cat /tmp/workspace/echo-output` == "Hello, world!" ]]; then
-            echo "成功しました！";
-          else
-            echo "失敗しました！"; exit 1
-          fi
-
+ build:
+   docker:
+     - image: alpine:3.7
+   steps:
+     - checkout
+     - run:
+         name: 最初の一歩
+         command: |
+           echo 'Hello World!'
+     - run:
+         name: コードの取得
+         command: |
+           ls -al
+           echo 'first job!!!'
+           pwd
+           cat README.md
+ test:
+   docker:
+     - image: alpine:3.7
+   steps:
+     - run:
+         name: メッセージ出力
+         command: |
+           ls -al
+           date
+           echo 'second job!!!'
 workflows:
   version: 2.1
-
-  btd:
+  build_and_test:
     jobs:
-      - flow
-      - downstream:
+      - build
+      - test:
           requires:
-            - flow
+            - build
+          filters:
+            branches:
+              only: master
