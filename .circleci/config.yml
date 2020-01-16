@@ -1,4 +1,4 @@
-version: 2.0
+version: 2
 jobs:
  build:
    docker:
@@ -9,9 +9,23 @@ jobs:
          name: 最初の一歩
          command: |
            echo 'Hello World!'
-           echo 'This is the delivery pipeline'
      - run:
          name: コードの取得
          command: |
            ls -al
-           echo '^^^That should look familiar^^^'
+           echo 'first job!!!'
+ test:
+   docker:
+     - image: alpine:3.7
+   steps:
+     - run:
+         name: メッセージ出力
+         command: |
+           ls -al
+           echo 'second job!!!'
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test
