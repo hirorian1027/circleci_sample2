@@ -44,12 +44,3 @@ workflows:
           filters:
             branches:
               only: master
-  nightly:
-    triggers:
-      - schedule:
-          cron: "35 15 * * *"
-          filters:
-            branches:
-              only: master
-    jobs:
-      - nightlybuild
