@@ -25,12 +25,12 @@ jobs:
     docker:
       - image: alpine:3.7
     steps:
+      - attach_workspace:
+          at: /root/project
       - run:
           name: 作業フォルダを参照
           command: |
             ls -al
-      - attach_workspace:
-          at: /root/project
       - run: cat /root/project/desc/test.txt
 workflows:
   version: 2
