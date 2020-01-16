@@ -24,7 +24,6 @@ jobs:
         command: |
           pwd
           ls -al
-    steps:
       - attach_workspace:
           at: /root/project/desc
       - run: |
