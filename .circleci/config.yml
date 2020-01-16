@@ -7,33 +7,33 @@ executors:
     working_directory: /root/project
 
 jobs:
- build:
-   executor: my-linux
-   steps:
-     - run:
-         name: 準備
-     - checkout
-     - run: mkdir -p desc
-     - run: echo "Hello, world!" > desc/newfile.txt
-     - run: pwd
-     - run: ls -lat
- test:
-   executor: my-linux
-   steps:
-     - run:
-         name: ファイル読み込み
-         command: |
-           pwd
-           ls -al
-   steps:
-     - attach_workspace:
-         at: /root/project/desc
-     - run: |
-         if [[ `cat /root/project/desc/newfile.txt` == "Hello, world!" ]]; then
-           echo "成功しました！";
-         else
-           echo "失敗しました！"; exit 1
-         fi
+  build:
+    executor: my-linux
+    steps:
+      - run:
+        name: 準備
+      - checkout
+      - run: mkdir -p desc
+      - run: echo "Hello, world!" > desc/newfile.txt
+      - run: pwd
+      - run: ls -lat
+  test:
+    executor: my-linux
+    steps:
+      - run:
+        name: ファイル読み込み
+        command: |
+          pwd
+          ls -al
+    steps:
+      - attach_workspace:
+          at: /root/project/desc
+      - run: |
+          if [[ `cat /root/project/desc/newfile.txt` == "Hello, world!" ]]; then
+            echo "成功しました！";
+          else
+            echo "失敗しました！"; exit 1
+          fi
 workflows:
   version: 2.1
   build_and_test:
