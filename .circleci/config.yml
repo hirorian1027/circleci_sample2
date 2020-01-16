@@ -5,7 +5,6 @@ executors:
     docker:
       - image: alpine:3.7
     working_directory: /root/project
-
 jobs:
   build:
     executor: my-linux
