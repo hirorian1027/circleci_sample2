@@ -1,32 +1,41 @@
 version: 2.1
 
+
+executors:
+  my-linux:
+    docker:
+      - image: image: alpine:3.7
+    working_directory: /root/project
+
 jobs:
  build:
-   docker:
-     - image: alpine:3.7
+   executor: my-linux
    steps:
+     - run:
+         name: 準備
      - checkout
-     - run:
-         name: 最初の一歩
-         command: |
-           echo 'Hello World!'
-     - run:
-         name: コードの取得
-         command: |
-           ls -al
-           echo 'first job!!!'
-           pwd
-           cat README.md
+     - run: mkdir -p desc
+     - run: echo "Hello, world!" > desc/newfile.txt
+     - run: pwd
+     - run: ls -lat
  test:
-   docker:
-     - image: alpine:3.7
+   executor: my-linux
    steps:
      - run:
-         name: メッセージ出力
+         name: ファイル読み込み
          command: |
+           pwd
            ls -al
-           date
-           echo 'second job!!!'
+   steps:
+     - attach_workspace:
+         # working_directory からの相対パスか絶対パスを指定します
+         at: /root/project/desc
+     - run: |
+         if [[ `cat /root/project/desc/newfile.txt` == "Hello, world!" ]]; then
+           echo "成功しました！";
+         else
+           echo "失敗しました！"; exit 1
+         fi
 workflows:
   version: 2.1
   build_and_test:
