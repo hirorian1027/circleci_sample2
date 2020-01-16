@@ -1,22 +1,38 @@
-version: 2.1
+version: 2
 
-executors:
-  my-linux:
-    docker:
-      - image: alpine:3.7
-    working_directory: /root/project
 jobs:
   build:
-    executor: my-linux
+    docker:
+      - image: alpine:3.7
+    steps:
+      - checkout
+      - run:
+          name: 準備
+          command: |
+            echo '準備開始!'
+      - run:
+          name: 作業フォルダ作成
+          command: |
+            mkdir -p desc
+            echo "Hello, world!" > desc/test.txt
+            pwd
+            ls -lat
+  test:
+    docker:
+      - image: alpine:3.7
     steps:
       - run:
-        name: 準備
-      - run: mkdir -p desc
-      - run: echo "Hello, world!" > desc/newfile.txt
-      - run: pwd
-      - run: ls -lat
+          name: 作業フォルダを参照
+          command: |
+            ls -al
 workflows:
-  version: 2.1
+  version: 2
   build_and_test:
     jobs:
       - build
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
