@@ -1,10 +1,9 @@
 version: 2.1
 
-
 executors:
   my-linux:
     docker:
-      - image: image: alpine:3.7
+      - image: alpine:3.7
     working_directory: /root/project
 
 jobs:
@@ -28,7 +27,6 @@ jobs:
            ls -al
    steps:
      - attach_workspace:
-         # working_directory からの相対パスか絶対パスを指定します
          at: /root/project/desc
      - run: |
          if [[ `cat /root/project/desc/newfile.txt` == "Hello, world!" ]]; then
