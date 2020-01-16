@@ -30,9 +30,13 @@ workflows:
   build_and_test:
     jobs:
       - build
+      - hold: # <<< ジョブの続きを実行するには CircleCI の Web ページ上で手動で承認する必要があります。
+          type: approval # <<< このキーを使うと Workflow を「待機」状態にします
+          requires: # test2 が完了すると hold ジョブに処理が移ります
+           - build
       - test:
           requires:
-            - build
+            - hold
           filters:
             branches:
               only: master
