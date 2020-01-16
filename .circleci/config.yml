@@ -25,7 +25,7 @@ jobs:
          command: |
            ls -al
            echo 'second job!!!'
- nightly-test:
+ nightlybuild:
    docker:
      - image: alpine:3.7
    steps:
@@ -47,9 +47,9 @@ workflows:
   nightly:
     triggers:
       - schedule:
-          cron: "30 15 * * *"
+          cron: "35 15 * * *"
           filters:
             branches:
               only: master
     jobs:
-      - nightly-test
+      - nightlybuild
