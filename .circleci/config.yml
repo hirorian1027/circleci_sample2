@@ -24,6 +24,7 @@ jobs:
          name: メッセージ出力
          command: |
            ls -al
+           date
            echo 'second job!!!'
  night:
    docker:
