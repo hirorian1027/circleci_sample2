@@ -47,10 +47,9 @@ workflows:
   nightly:
     triggers:
       - schedule:
-          cron: "18 15 * * *"
+          cron: "30 15 * * *"
           filters:
             branches:
-              only:
-                - master
+              only: master
     jobs:
       - nightly-test
