@@ -14,8 +14,11 @@ jobs:
   flow:
     executor: my-executor
     steps:
+      - run: pwd
+      - run: ls -lat
       - run: mkdir -p workspace
       - run: echo "Hello, world!" > workspace/echo-output
+      - run: ls -lat
 
       # 後に続くジョブで利用できるように Workspace に指定のパス（workspace/echo-output）を保存します。
       - persist_to_workspace:
