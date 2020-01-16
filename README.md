@@ -1,0 +1,2 @@
+# circleci_sample2
+CircleCIのためのサンプルプロジェクト
