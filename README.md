@@ -1,3 +1,3 @@
 # circleci_sample2
 CircleCIのためのサンプルプロジェクト
-future1で修正
+mastarで修正
